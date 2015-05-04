@@ -16,7 +16,12 @@
 		D849C0BF1AF08942001C01AC /* MapViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D849C0BE1AF08942001C01AC /* MapViewExtension.swift */; };
 		D849C0C21AF089F7001C01AC /* SpeciesAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D849C0C11AF089F7001C01AC /* SpeciesAnnotation.swift */; };
 		D87AE96E1AF1B98C007CC262 /* LogCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87AE96D1AF1B98C007CC262 /* LogCell.swift */; };
-		D897B1FC1AF24E0900DAD3EB /* CategoriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D897B1FB1AF24E0900DAD3EB /* CategoriesTableViewController.swift */; };
+		D88091961AF3630E00E140A4 /* RLMSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88091951AF3630E00E140A4 /* RLMSupport.swift */; };
+		D897B1F11AF1D09F00DAD3EB /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D897B1F01AF1D09F00DAD3EB /* Realm.framework */; };
+		D897B1F31AF1D10000DAD3EB /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D897B1F21AF1D10000DAD3EB /* libc++.dylib */; };
+		D897B1F81AF1EA7500DAD3EB /* Species.swift in Sources */ = {isa = PBXBuildFile; fileRef = D897B1F71AF1EA7500DAD3EB /* Species.swift */; };
+		D897B1FA1AF1F07A00DAD3EB /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = D897B1F91AF1F07A00DAD3EB /* Category.swift */; };
+		D897B1FE1AF2527700DAD3EB /* CategoriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D897B1FD1AF2527700DAD3EB /* CategoriesTableViewController.swift */; };
 		D8D8C0E61AF130DD00F750AF /* AddNewEntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D8C0E51AF130DD00F750AF /* AddNewEntryController.swift */; };
 		D8D8C0E81AF1355F00F750AF /* LogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D8C0E71AF1355F00F750AF /* LogViewController.swift */; };
 /* End PBXBuildFile section */
@@ -45,7 +50,12 @@
 		D849C0BE1AF08942001C01AC /* MapViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewExtension.swift; sourceTree = "<group>"; };
 		D849C0C11AF089F7001C01AC /* SpeciesAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpeciesAnnotation.swift; path = Annotations/SpeciesAnnotation.swift; sourceTree = "<group>"; };
 		D87AE96D1AF1B98C007CC262 /* LogCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogCell.swift; sourceTree = "<group>"; };
-		D897B1FB1AF24E0900DAD3EB /* CategoriesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesTableViewController.swift; sourceTree = "<group>"; };
+		D88091951AF3630E00E140A4 /* RLMSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RLMSupport.swift; sourceTree = "<group>"; };
+		D897B1F01AF1D09F00DAD3EB /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
+		D897B1F21AF1D10000DAD3EB /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		D897B1F71AF1EA7500DAD3EB /* Species.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Species.swift; sourceTree = "<group>"; };
+		D897B1F91AF1F07A00DAD3EB /* Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		D897B1FD1AF2527700DAD3EB /* CategoriesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesTableViewController.swift; sourceTree = "<group>"; };
 		D8D8C0E51AF130DD00F750AF /* AddNewEntryController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddNewEntryController.swift; sourceTree = "<group>"; };
 		D8D8C0E71AF1355F00F750AF /* LogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -55,6 +65,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D897B1F31AF1D10000DAD3EB /* libc++.dylib in Frameworks */,
+				D897B1F11AF1D09F00DAD3EB /* Realm.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,6 +83,7 @@
 		D849C08F1AF078E4001C01AC = {
 			isa = PBXGroup;
 			children = (
+				D897B1EF1AF1CFBF00DAD3EB /* Frameworks */,
 				D849C09A1AF078E4001C01AC /* SISpeciesNotes */,
 				D849C0B01AF078E4001C01AC /* SISpeciesNotesTests */,
 				D849C0991AF078E4001C01AC /* Products */,
@@ -89,6 +102,7 @@
 		D849C09A1AF078E4001C01AC /* SISpeciesNotes */ = {
 			isa = PBXGroup;
 			children = (
+				D897B1F41AF1E80200DAD3EB /* Model */,
 				D897B1EE1AF1CFB200DAD3EB /* Cell */,
 				D897B1ED1AF1CFA300DAD3EB /* Controller */,
 				D849C0C01AF089C7001C01AC /* Annotations */,
@@ -149,7 +163,7 @@
 				D8D8C0E71AF1355F00F750AF /* LogViewController.swift */,
 				D849C09F1AF078E4001C01AC /* MapViewController.swift */,
 				D8D8C0E51AF130DD00F750AF /* AddNewEntryController.swift */,
-				D897B1FB1AF24E0900DAD3EB /* CategoriesTableViewController.swift */,
+				D897B1FD1AF2527700DAD3EB /* CategoriesTableViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -160,6 +174,25 @@
 				D87AE96D1AF1B98C007CC262 /* LogCell.swift */,
 			);
 			name = Cell;
+			sourceTree = "<group>";
+		};
+		D897B1EF1AF1CFBF00DAD3EB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D88091951AF3630E00E140A4 /* RLMSupport.swift */,
+				D897B1F21AF1D10000DAD3EB /* libc++.dylib */,
+				D897B1F01AF1D09F00DAD3EB /* Realm.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D897B1F41AF1E80200DAD3EB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D897B1F71AF1EA7500DAD3EB /* Species.swift */,
+				D897B1F91AF1F07A00DAD3EB /* Category.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -263,13 +296,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				D8D8C0E61AF130DD00F750AF /* AddNewEntryController.swift in Sources */,
+				D88091961AF3630E00E140A4 /* RLMSupport.swift in Sources */,
 				D849C0A01AF078E4001C01AC /* MapViewController.swift in Sources */,
 				D849C0C21AF089F7001C01AC /* SpeciesAnnotation.swift in Sources */,
-				D897B1FC1AF24E0900DAD3EB /* CategoriesTableViewController.swift in Sources */,
 				D8D8C0E81AF1355F00F750AF /* LogViewController.swift in Sources */,
+				D897B1F81AF1EA7500DAD3EB /* Species.swift in Sources */,
+				D897B1FA1AF1F07A00DAD3EB /* Category.swift in Sources */,
 				D87AE96E1AF1B98C007CC262 /* LogCell.swift in Sources */,
 				D849C0BF1AF08942001C01AC /* MapViewExtension.swift in Sources */,
 				D849C09E1AF078E4001C01AC /* AppDelegate.swift in Sources */,
+				D897B1FE1AF2527700DAD3EB /* CategoriesTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,7 +439,6 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = SISpeciesNotes/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -418,7 +453,6 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = SISpeciesNotes/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

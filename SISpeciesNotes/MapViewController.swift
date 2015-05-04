@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import CoreLocation
+import Realm
 
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
@@ -23,6 +24,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     /// 标记用户是否定位
     var isUserLocated = false
+    
+    var results: RLMResults?
     
     // MARK: - 控制器生命周期
     
@@ -41,6 +44,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         } else {
             locationManager.startUpdatingLocation()
         }
+        
+        populateMap()
     }
 
     override func didReceiveMemoryWarning() {
@@ -131,20 +136,32 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             let controller = segue.destinationViewController as! AddNewEntryController
             let speciesAnnotation = sender as! SpeciesAnnotation
             controller.selectedAnnotation = speciesAnnotation
+        }else if segue.identifier == "Log" {
+            updateLocationDistance()
         }
     }
     
     @IBAction func unwindFromAddNewEntry(segue: UIStoryboardSegue) {
         
         let addNewEntryController = segue.sourceViewController as! AddNewEntryController
+        let addedSpecies = addNewEntryController.species
+        let addedSpeciesCoordinate = CLLocationCoordinate2DMake(addedSpecies.latitude, addedSpecies.longitude)
         
         if lastAnnotation != nil {
             mapView.removeAnnotation(lastAnnotation)
         } else {
             for annotation in mapView.annotations {
-                
+                let currentAnnotation = annotation as! SpeciesAnnotation
+                if currentAnnotation.coordinate.latitude == addedSpeciesCoordinate.latitude && currentAnnotation.coordinate.longitude == addedSpeciesCoordinate.longitude {
+                    mapView.removeAnnotation(currentAnnotation)
+                    break
+                }
             }
         }
+        
+        let annotation = SpeciesAnnotation(coordinate: addedSpeciesCoordinate, title: addedSpecies.name, sub: Categories(rawValue: addedSpecies.category.name)!, species: addedSpecies)
+        
+        mapView.addAnnotation(annotation)
         
         lastAnnotation = nil
     }
@@ -212,6 +229,35 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 }
             }
         })
+    }
+    
+    func populateMap() {
+        mapView.removeAnnotations(mapView.annotations)
+        
+        if let results = SpeciesModel.allObjects() {
+            self.results = results
+            for result in results {
+                let species = result as! SpeciesModel
+                let coordinate = CLLocationCoordinate2DMake(species.latitude, species.longitude)
+                let speciesAnnotation = SpeciesAnnotation(coordinate: coordinate, title: species.name, sub: Categories(rawValue: species.category.name)!, species: species)
+                mapView.addAnnotation(speciesAnnotation)
+            }
+        }
+    }
+    
+    func updateLocationDistance() {
+        let realm = RLMRealm.defaultRealm()
+        
+        if results != nil {
+            for result in results! {
+                let currentSpecies = result as! SpeciesModel
+                let currentLocation = CLLocation(latitude: currentSpecies.latitude, longitude: currentSpecies.longitude)
+                let distance = currentLocation.distanceFromLocation(mapView.userLocation.location)
+                realm.beginWriteTransaction()
+                currentSpecies.distance = Double(distance)
+                realm.commitWriteTransaction()
+            }
+        }
     }
     
     // MARK: - Setter & Getter
