@@ -89,6 +89,7 @@
 		D849C09A1AF078E4001C01AC /* SISpeciesNotes */ = {
 			isa = PBXGroup;
 			children = (
+				D8D76ABF1C1021AC0041D0ED /* Frameworks */,
 				D8D76ABE1C0FF1670041D0ED /* Resources */,
 				D897B1EE1AF1CFB200DAD3EB /* Cell */,
 				D897B1ED1AF1CFA300DAD3EB /* Controller */,
@@ -168,6 +169,13 @@
 				D849C0A61AF078E4001C01AC /* LaunchScreen.xib */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		D8D76ABF1C1021AC0041D0ED /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
