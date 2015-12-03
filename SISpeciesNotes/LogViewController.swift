@@ -30,13 +30,6 @@ class LogViewController: UITableViewController, UISearchResultsUpdating, UISearc
         definesPresentationContext = true
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        let barButtonItem = UIBarButtonItem(title: "返回", style: .Plain, target: self, action: nil)
-        self.navigationItem.backBarButtonItem = barButtonItem
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }

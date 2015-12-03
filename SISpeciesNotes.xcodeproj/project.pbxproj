@@ -71,6 +71,7 @@
 		D849C08F1AF078E4001C01AC = {
 			isa = PBXGroup;
 			children = (
+				D8D76ABF1C1021AC0041D0ED /* Frameworks */,
 				D849C09A1AF078E4001C01AC /* SISpeciesNotes */,
 				D849C0B01AF078E4001C01AC /* SISpeciesNotesTests */,
 				D849C0991AF078E4001C01AC /* Products */,
@@ -89,7 +90,6 @@
 		D849C09A1AF078E4001C01AC /* SISpeciesNotes */ = {
 			isa = PBXGroup;
 			children = (
-				D8D76ABF1C1021AC0041D0ED /* Frameworks */,
 				D8D76ABE1C0FF1670041D0ED /* Resources */,
 				D897B1EE1AF1CFB200DAD3EB /* Cell */,
 				D897B1ED1AF1CFA300DAD3EB /* Controller */,
@@ -176,6 +176,7 @@
 			children = (
 			);
 			name = Frameworks;
+			path = SISpeciesNotes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
