@@ -44,10 +44,10 @@ class AddNewEntryController: UIViewController, UITextFieldDelegate, UIImagePicke
     // MARK: - 文本栏输入验证
     
     private func validateFields() -> Bool {
-        if nameTextField.text.isEmpty || descriptionTextView.text.isEmpty {
+        if nameTextField.text!.isEmpty || descriptionTextView.text.isEmpty {
             let alertController = UIAlertController(title: "验证错误", message: "所有的文本栏都不能为空", preferredStyle: .Alert)
             let alertAction = UIAlertAction(title: "确认", style: .Destructive, handler: {
-                (alert: UIAlertAction!) -> Void in
+                (alert: UIAlertAction) -> Void in
                 alertController.dismissViewControllerAnimated(true, completion: nil)
             })
             alertController.addAction(alertAction)

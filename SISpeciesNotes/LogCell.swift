@@ -10,10 +10,14 @@ import UIKit
 
 class LogCell: UITableViewCell {
     
+    // MARK: Properties
+    
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var iconImageView: UIImageView!
+    
+    // MARK: Life Circle
     
     override func awakeFromNib() {
         super.awakeFromNib()

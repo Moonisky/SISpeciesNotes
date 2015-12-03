@@ -89,14 +89,11 @@
 		D849C09A1AF078E4001C01AC /* SISpeciesNotes */ = {
 			isa = PBXGroup;
 			children = (
+				D8D76ABE1C0FF1670041D0ED /* Resources */,
 				D897B1EE1AF1CFB200DAD3EB /* Cell */,
 				D897B1ED1AF1CFA300DAD3EB /* Controller */,
 				D849C0C01AF089C7001C01AC /* Annotations */,
 				D849C0BD1AF08916001C01AC /* Extension */,
-				D849C0A11AF078E4001C01AC /* Main.storyboard */,
-				D849C0A41AF078E4001C01AC /* Images.xcassets */,
-				D849C0A61AF078E4001C01AC /* LaunchScreen.xib */,
-				D849C09D1AF078E4001C01AC /* AppDelegate.swift */,
 				D849C09B1AF078E4001C01AC /* Supporting Files */,
 			);
 			path = SISpeciesNotes;
@@ -105,6 +102,7 @@
 		D849C09B1AF078E4001C01AC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D849C09D1AF078E4001C01AC /* AppDelegate.swift */,
 				D849C09C1AF078E4001C01AC /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -162,6 +160,16 @@
 			name = Cell;
 			sourceTree = "<group>";
 		};
+		D8D76ABE1C0FF1670041D0ED /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D849C0A11AF078E4001C01AC /* Main.storyboard */,
+				D849C0A41AF078E4001C01AC /* Images.xcassets */,
+				D849C0A61AF078E4001C01AC /* LaunchScreen.xib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -206,7 +214,9 @@
 		D849C0901AF078E4001C01AC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastSwiftMigration = 0710;
+				LastSwiftUpdateCheck = 0710;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "益行人";
 				TargetAttributes = {
 					D849C0971AF078E4001C01AC = {
@@ -332,6 +342,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -405,6 +416,7 @@
 				INFOPLIST_FILE = SISpeciesNotes/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.1-xing.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -420,6 +432,7 @@
 				INFOPLIST_FILE = SISpeciesNotes/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.1-xing.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -438,6 +451,7 @@
 				);
 				INFOPLIST_FILE = SISpeciesNotesTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.1-xing.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SISpeciesNotes.app/SISpeciesNotes";
 			};
@@ -453,6 +467,7 @@
 				);
 				INFOPLIST_FILE = SISpeciesNotesTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.1-xing.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SISpeciesNotes.app/SISpeciesNotes";
 			};

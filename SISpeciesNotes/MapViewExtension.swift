@@ -71,10 +71,10 @@ extension MKMapView {
     
     /// 删除系统默认的指南针视图，注意指南针视图一经删除便无法恢复~这个方法返回一个布尔值说明删除是否成功
     func deleteCompass() -> Bool{
-        var mapSubviews = self.subviews
+        let mapSubviews = self.subviews
         for view in mapSubviews {
             // 移除指南针
-            if view.isKindOfClass(NSClassFromString("MKCompassView")) {
+            if view.isKindOfClass(NSClassFromString("MKCompassView")!) {
                 view.removeFromSuperview()
                 return true
             }
@@ -84,10 +84,10 @@ extension MKMapView {
 
     /// 删除地图左下角的跳转标签，注意左下角的跳转标签一经删除便无法恢复~这个方法返回一个布尔值说明删除是否成功
     func deleteAttributionLabel() -> Bool{
-        var mapSubviews = self.subviews
+        let mapSubviews = self.subviews
         for view in mapSubviews {
             // 移除标签
-            if view.isKindOfClass(NSClassFromString("MKAttributionLabel")) {
+            if view.isKindOfClass(NSClassFromString("MKAttributionLabel")!) {
                 view.removeFromSuperview()
                 return true
             }
@@ -97,7 +97,7 @@ extension MKMapView {
     
     /// 删除地图右下角的地图提供者信息，注意右下角的地图提供者信息一经删除便无法恢复~这个方法返回一个布尔值说明删除是否成功
     func deleteMapInfo() -> Bool {
-        var mapSubviews = self.subviews
+        let mapSubviews = self.subviews
         for view in mapSubviews {
             // 移除标签
             if view.isKindOfClass(UIImageView) {

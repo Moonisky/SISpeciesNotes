@@ -11,7 +11,7 @@ import MapKit
 
 class LogViewController: UITableViewController, UISearchResultsUpdating, UISearchBarDelegate {
     
-    // MARK: - 属性
+    // MARK: Properties
     
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     
@@ -22,12 +22,19 @@ class LogViewController: UITableViewController, UISearchResultsUpdating, UISearc
     
     var searchController: UISearchController!
     
-    // MARK: - 控制器生命周期
+    // MARK: 控制器生命周期
     override func viewDidLoad() {
         super.viewDidLoad()
         
         initSearchController()  // 初始化搜索控制器
         definesPresentationContext = true
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let barButtonItem = UIBarButtonItem(title: "返回", style: .Plain, target: self, action: nil)
+        self.navigationItem.backBarButtonItem = barButtonItem
     }
     
     override func didReceiveMemoryWarning() {
@@ -51,14 +58,14 @@ class LogViewController: UITableViewController, UISearchResultsUpdating, UISearc
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchController.active {
-            return Int(searchResults.count)
+            return searchResults.count
         }else {
-            return Int(species.count)
+            return species.count
         }
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("LogCell") as! LogCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("LogCell") as! LogCell
         
         return cell
     }
@@ -79,11 +86,10 @@ class LogViewController: UITableViewController, UISearchResultsUpdating, UISearc
         if segue.identifier == "Edit" {
             let controller = segue.destinationViewController as! AddNewEntryController
             
-            let indexPath = tableView.indexPathForSelectedRow()
+            let indexPath = tableView.indexPathForSelectedRow
             
-            if searchController.active {
-                let searchResultsController = searchController.searchResultsController as! UITableViewController
-                let indexPathSearch = searchResultsController.tableView.indexPathForSelectedRow()
+            if let searchResultsController = searchController.searchResultsController as? UITableViewController where searchController.active {
+                let indexPathSearch = searchResultsController.tableView.indexPathForSelectedRow
             }
         }
     }
@@ -97,7 +103,7 @@ class LogViewController: UITableViewController, UISearchResultsUpdating, UISearc
     // MARK: - Setter & Getter
     
     func initSearchController() {
-        var searchResultsController = UITableViewController(style: .Plain) as UITableViewController
+        let searchResultsController = UITableViewController(style: .Plain)
         searchResultsController.tableView.delegate = self
         searchResultsController.tableView.dataSource = self
         searchResultsController.tableView.rowHeight = 63

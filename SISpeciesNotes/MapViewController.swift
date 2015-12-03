@@ -15,21 +15,19 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     // MARK: - 属性
     
     /// 地图控件
-    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak private var mapView: MKMapView!
     /// 位置管理器
-    var locationManager = CLLocationManager()
+    private var locationManager = CLLocationManager()
     /// 最后一个标记点信息
-    var lastAnnotation: MKAnnotation!
-    
+    private var lastAnnotation: MKAnnotation!
     /// 标记用户是否定位
-    var isUserLocated = false
+    private var isUserLocated = false
     
     // MARK: - 控制器生命周期
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
+
         self.title = "未能获取定位"
         
         initMapView()
@@ -37,7 +35,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         locationManager.delegate = self
         if CLLocationManager.authorizationStatus() == .NotDetermined {
             locationManager.requestWhenInUseAuthorization()
-            println("请求授权")
+            print("请求授权")
         } else {
             locationManager.startUpdatingLocation()
         }
@@ -53,10 +51,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     // MARK: - CLLocationManager Delegate
     
     /// 改变授权状态信息时调用
-    func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         if status == .NotDetermined {
-            println("已禁止应用获取用户位置信息，请授权！")
-        }else {
+            print("已禁止应用获取用户位置信息，请授权！")
+        } else {
             mapView.showsUserLocation = true
         }
     }
@@ -64,32 +62,26 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     // MARK: - MKMapView Delegate
     
     /// 标记的视图定义
-    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
-        if annotation is SpeciesAnnotation {
-            let currentAnnotation = annotation as! SpeciesAnnotation
-            var annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(currentAnnotation.subtitle)
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        guard let currentAnnotation = annotation as? SpeciesAnnotation else { return nil }
+        guard let annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(currentAnnotation.subtitle!) else {
+            let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: currentAnnotation.subtitle!)
             
-            if annotationView == nil {
-                annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: currentAnnotation.subtitle)
-                annotationView.image = getImageOfSpecies(currentAnnotation.subtitle)
-                annotationView.enabled = true
-                annotationView.canShowCallout = true
-                annotationView.centerOffset = CGPointMake(0, -10)
-                
-                var detailDisclosure = UIButton.buttonWithType(.DetailDisclosure) as! UIButton
-                annotationView.rightCalloutAccessoryView = detailDisclosure
-            
-                if currentAnnotation.title == "新物种" {
-                    annotationView.draggable = true
-                }
+            annotationView.image = currentAnnotation.category.getImage()
+            annotationView.enabled = true
+            annotationView.canShowCallout = true
+            annotationView.centerOffset = CGPointMake(0, -10)
+            annotationView.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
+            if currentAnnotation.category == .Uncategorized {
+                annotationView.draggable = true
             }
             return annotationView
         }
-        return nil
+        return annotationView
     }
     
-    func mapView(mapView: MKMapView!, didAddAnnotationViews views: [AnyObject]!) {
-        for annotationView in views as! [MKAnnotationView] {
+    func mapView(mapView: MKMapView, didAddAnnotationViews views: [MKAnnotationView]) {
+        for annotationView in views {
             if annotationView.annotation is SpeciesAnnotation {
                 annotationView.transform = CGAffineTransformMakeTranslation(0, -500)
                 UIView.animateWithDuration(0.5, delay: 0, options: .CurveLinear, animations: {
@@ -99,19 +91,19 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }
     }
     
-    func mapView(mapView: MKMapView!, annotationView view: MKAnnotationView!, calloutAccessoryControlTapped control: UIControl!) {
+    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if view.annotation is SpeciesAnnotation {
             self.performSegueWithIdentifier("NewEntry", sender: view.annotation)
         }
     }
     
-    func mapView(mapView: MKMapView!, annotationView view: MKAnnotationView!, didChangeDragState newState: MKAnnotationViewDragState, fromOldState oldState: MKAnnotationViewDragState) {
+    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, didChangeDragState newState: MKAnnotationViewDragState, fromOldState oldState: MKAnnotationViewDragState) {
         if newState == .Ending {
             view.dragState = .None
         }
     }
     
-    func mapView(mapView: MKMapView!, regionDidChangeAnimated animated: Bool) {
+    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         getCurrentGeoInfo()
     }
     
@@ -169,7 +161,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }else {
             let alertController = UIAlertController(title: "这个位置已被标记", message: "当前位置已经标记过了，如果需要更改这个标记的位置，请将其拖动到其他位置！", preferredStyle: .Alert)
             let alertAction = UIAlertAction(title: "确定", style: .Destructive, handler: {
-                (alert: UIAlertAction!) -> Void in
+                (alert: UIAlertAction) -> Void in
                     alertController.dismissViewControllerAnimated(true, completion: nil)
             })
             alertController.addAction(alertAction)
@@ -182,36 +174,36 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         var geocoder = CLGeocoder()
         var location = CLLocation(latitude: mapView.userLocation.coordinate.latitude, longitude: mapView.userLocation.coordinate.longitude)
         geocoder.reverseGeocodeLocation(location, completionHandler: {
-            (array: [AnyObject]!, error: NSError!) -> Void in
+            placemarks, error in
             if error != nil {
-                println("获取当前的位置失败：\(error)")
+                print("获取当前的位置失败：\(error)")
                 return
             }
-            var placemarks = array as! [CLPlacemark]
-            for placemark in placemarks {
-                println(placemark.addressDictionary)
-                if let area = placemark.addressDictionary["SubLocality"] as? String {
+            for placemark in placemarks! {
+                print(placemark.addressDictionary)
+                if let area = placemark.addressDictionary!["SubLocality"] as? String {
                     // 区
                     self.title = area
-                    println(area)
-                }else if let city = placemark.addressDictionary["City"] as? String {
+                    print(area)
+                }else if let city = placemark.addressDictionary!["City"] as? String {
                     // 市
                     self.title = city
-                    println(city)
-                }else if let province = placemark.addressDictionary["State"] as? String {
+                    print(city)
+                }else if let province = placemark.addressDictionary!["State"] as? String {
                     // 省
                     self.title = province
-                    println(province)
+                    print(province)
                 }
-                else if let country = placemark.addressDictionary["Country"] as? String {
+                else if let country = placemark.addressDictionary!["Country"] as? String {
                     // 国家
                     self.title = country
-                    println(country)
+                    print(country)
                 }else {
                     self.title = "未能获取定位"
                 }
             }
         })
+        
     }
     
     // MARK: - Setter & Getter

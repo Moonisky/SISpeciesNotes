@@ -12,8 +12,9 @@ import MapKit
 class SpeciesAnnotation:NSObject, MKAnnotation {
     
     var coordinate: CLLocationCoordinate2D
-    var title: String
-    var subtitle: String
+    var title: String?
+    var subtitle: String?
+    var category = Categories.Uncategorized
     
     init(coordinate: CLLocationCoordinate2D, title: String, sub: Categories) {
         self.coordinate = coordinate
@@ -40,12 +41,10 @@ enum Categories: String {
         Flora.rawValue,
         Reptiles.rawValue
     ]
-}
-
-/// 获取物种所对应的标记图片
-func getImageOfSpecies(species: String) -> UIImage {
-    if let enumeration = Categories(rawValue: species) {
-        switch enumeration {
+    
+    /// 获取物种所对应的标记图片
+    func getImage() -> UIImage {
+        switch self {
         case .Birds:
             return UIImage(named: "IconBirds")!
         case .Flora:
@@ -60,5 +59,4 @@ func getImageOfSpecies(species: String) -> UIImage {
             return UIImage(named: "IconUncategorized")!
         }
     }
-    return UIImage(named: "IconUncategorized")!
 }
