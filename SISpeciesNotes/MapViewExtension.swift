@@ -17,12 +17,12 @@ extension MKMapView {
     var zoomLevel: UInt {
         get {
             // 缩放比例
-            let zoomScale = log2(self.visibleMapRect.size.width / Double(self.bounds.size.width))
+            let zoomScale = log2(self.visibleMapRect.size.width / Double(self.bounds.width))
             // 实际缩放级别
             let zoomLevel = 20 - zoomScale
             return UInt(ceil(zoomLevel))
         }
-        set (newZoomLevel){
+        set (newZoomLevel) {
             self.setCenterCoordinate(self.userLocation.coordinate, zoomLevel: newZoomLevel, animated: true)
         }
     }
@@ -35,8 +35,8 @@ extension MKMapView {
         // 获取缩放比例
         let zoomScale = exp2(Double(level))
         // 计算当前屏幕的大小和原点
-        let mapSize = MKMapSizeMake(Double(self.bounds.size.width) * zoomScale, Double(self.bounds.size.height) * zoomScale)
-        let mapOrigin = MKMapPointMake(currentCenterPoint.x - mapSize.width / 2, currentCenterPoint.y - mapSize.height / 2)
+        let mapSize = MKMapSize(width: Double(self.bounds.width) * zoomScale, height: Double(self.bounds.height) * zoomScale)
+        let mapOrigin = MKMapPoint(x: currentCenterPoint.x - mapSize.width / 2, y: currentCenterPoint.y - mapSize.height / 2)
         
          self.visibleMapRect = self.mapRectThatFits(MKMapRect(origin: mapOrigin, size: mapSize))
     }
@@ -108,3 +108,4 @@ extension MKMapView {
         return false
     }
 }
+

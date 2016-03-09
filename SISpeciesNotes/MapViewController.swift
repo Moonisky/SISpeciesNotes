@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import CoreLocation
+import RealmSwift
 
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
@@ -22,6 +23,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     private var lastAnnotation: MKAnnotation!
     /// 标记用户是否定位
     private var isUserLocated = false
+    /// 检索结果
+    private var results: Results<SpeciesModel>?
     
     // MARK: - 控制器生命周期
     
@@ -29,7 +32,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         super.viewDidLoad()
 
         self.title = "未能获取定位"
-        
         initMapView()
         
         locationManager.delegate = self
@@ -40,13 +42,33 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             locationManager.startUpdatingLocation()
         }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.populateMap()
+        self.updateLocationDistance()
     }
     
     // MARK: - Realm相关方法
+    
+    private func populateMap() {
+        mapView.removeAnnotations(mapView.annotations)
+        
+        let results = realm.objects(SpeciesModel)
+        self.results = results
+        
+        for result in results {
+            let coordinate = CLLocationCoordinate2D(latitude: result.latitude, longitude: result.longitude)
+            let category: Categories
+            if let cate = result.category, newCate = Categories(rawValue: cate.name) {
+                category = newCate
+            } else {
+                category = .Uncategorized
+            }
+            let speciesAnnotation = SpeciesAnnotation(coordinate: coordinate, title: result.name, category: category, species: result)
+            mapView.addAnnotation(speciesAnnotation)
+        }
+    }
     
     // MARK: - CLLocationManager Delegate
     
@@ -67,7 +89,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         guard let annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(currentAnnotation.subtitle!) else {
             let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: currentAnnotation.subtitle!)
             
-            annotationView.image = currentAnnotation.category.getImage()
+            annotationView.image = currentAnnotation.category.annotationImage
             annotationView.enabled = true
             annotationView.canShowCallout = true
             annotationView.centerOffset = CGPointMake(0, -10)
@@ -123,25 +145,55 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             let controller = segue.destinationViewController as! AddNewEntryController
             let speciesAnnotation = sender as! SpeciesAnnotation
             controller.selectedAnnotation = speciesAnnotation
+            controller.species = speciesAnnotation.species
+        } else if segue.identifier == "Log" {
+            let controller = segue.destinationViewController as! LogViewController
+            updateLocationDistance()
+            controller.species = results
+            lastAnnotation = nil
         }
     }
     
-    @IBAction func unwindFromAddNewEntry(segue: UIStoryboardSegue) {
+    @IBAction private func unwindFromAddNewEntry(segue: UIStoryboardSegue) {
         
         let addNewEntryController = segue.sourceViewController as! AddNewEntryController
+        let addedSpecies = addNewEntryController.species
+        let addedSpeciesCoordinate = CLLocationCoordinate2D(latitude: addedSpecies.latitude, longitude: addedSpecies.longitude)
         
         if lastAnnotation != nil {
             mapView.removeAnnotation(lastAnnotation)
         } else {
-            for annotation in mapView.annotations {
-                
+            for annotation in mapView.annotations where annotation is SpeciesAnnotation {
+                let currentAnnotation = annotation as! SpeciesAnnotation
+                if currentAnnotation.coordinate == addedSpeciesCoordinate {
+                    mapView.removeAnnotation(currentAnnotation)
+                    break
+                }
             }
         }
+        
+        let category: Categories
+        if let cate = addedSpecies.category, newCate = Categories(rawValue: cate.name) {
+            category = newCate
+        } else {
+            category = .Uncategorized
+        }
+        let annotation = SpeciesAnnotation(coordinate: addedSpeciesCoordinate, title: addedSpecies.name, category: category, species: addedSpecies)
+        mapView.addAnnotation(annotation)
         
         lastAnnotation = nil
     }
     
     // MARK: - 私有的简易方法
+    
+    private func updateLocationDistance() {
+        guard let results = results, location = mapView.userLocation.location else { return }
+        for result in results {
+            let currentLocation = CLLocation(latitude: result.latitude, longitude: result.longitude)
+            let distance = currentLocation.distanceFromLocation(location)
+            result.distance = distance
+        }
+    }
     
     /// 将地图中心重定位到当前用户位置
     private func centerToUsersLocation() {
@@ -153,7 +205,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     private func addNewAnnotation() {
         if lastAnnotation == nil {
 
-            let species = SpeciesAnnotation(coordinate: mapView.centerCoordinate, title: "新物种", sub: .Uncategorized)
+            let species = SpeciesAnnotation(coordinate: mapView.centerCoordinate, title: "新物种", category: .Uncategorized)
             
             mapView.addAnnotation(species)
             lastAnnotation = species
@@ -171,8 +223,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     // 获取当前地理位置信息
     private func getCurrentGeoInfo() {
-        var geocoder = CLGeocoder()
-        var location = CLLocation(latitude: mapView.userLocation.coordinate.latitude, longitude: mapView.userLocation.coordinate.longitude)
+        let geocoder = CLGeocoder()
+        let location = CLLocation(latitude: mapView.userLocation.coordinate.latitude, longitude: mapView.userLocation.coordinate.longitude)
         geocoder.reverseGeocodeLocation(location, completionHandler: {
             placemarks, error in
             if error != nil {
@@ -208,7 +260,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     // MARK: - Setter & Getter
 
-    func initMapView() {
+    private func initMapView() {
         mapView.deleteAttributionLabel()
         mapView.deleteMapInfo()
     }

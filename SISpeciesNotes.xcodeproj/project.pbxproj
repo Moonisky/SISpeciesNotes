@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D82758411C5101E10097C63D /* LogCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82758401C5101E10097C63D /* LogCellModel.swift */; };
 		D849C09E1AF078E4001C01AC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D849C09D1AF078E4001C01AC /* AppDelegate.swift */; };
 		D849C0A01AF078E4001C01AC /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D849C09F1AF078E4001C01AC /* MapViewController.swift */; };
 		D849C0A31AF078E4001C01AC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D849C0A11AF078E4001C01AC /* Main.storyboard */; };
@@ -15,8 +16,15 @@
 		D849C0B41AF078E4001C01AC /* SISpeciesNotesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D849C0B31AF078E4001C01AC /* SISpeciesNotesTests.swift */; };
 		D849C0BF1AF08942001C01AC /* MapViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D849C0BE1AF08942001C01AC /* MapViewExtension.swift */; };
 		D849C0C21AF089F7001C01AC /* SpeciesAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D849C0C11AF089F7001C01AC /* SpeciesAnnotation.swift */; };
+		D8671A4A1C438A980038CD45 /* CoreLocationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8671A491C438A980038CD45 /* CoreLocationExtension.swift */; };
 		D87AE96E1AF1B98C007CC262 /* LogCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87AE96D1AF1B98C007CC262 /* LogCell.swift */; };
 		D897B1FC1AF24E0900DAD3EB /* CategoriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D897B1FB1AF24E0900DAD3EB /* CategoriesTableViewController.swift */; };
+		D8C55E631C102A6600FC0D64 /* SpeciesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C55E621C102A6600FC0D64 /* SpeciesModel.swift */; };
+		D8C55E681C102CCA00FC0D64 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C55E671C102CCA00FC0D64 /* CategoryModel.swift */; };
+		D8D76ACB1C10253D0041D0ED /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8D76AC91C10253D0041D0ED /* Realm.framework */; };
+		D8D76ACC1C10253D0041D0ED /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D8D76AC91C10253D0041D0ED /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D8D76ACD1C10253D0041D0ED /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8D76ACA1C10253D0041D0ED /* RealmSwift.framework */; };
+		D8D76ACE1C10253D0041D0ED /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D8D76ACA1C10253D0041D0ED /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D8D8C0E61AF130DD00F750AF /* AddNewEntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D8C0E51AF130DD00F750AF /* AddNewEntryController.swift */; };
 		D8D8C0E81AF1355F00F750AF /* LogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D8C0E71AF1355F00F750AF /* LogViewController.swift */; };
 /* End PBXBuildFile section */
@@ -31,7 +39,23 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		D8D76ACF1C10253D0041D0ED /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D8D76ACE1C10253D0041D0ED /* RealmSwift.framework in Embed Frameworks */,
+				D8D76ACC1C10253D0041D0ED /* Realm.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		D82758401C5101E10097C63D /* LogCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LogCellModel.swift; path = Model/LogCellModel.swift; sourceTree = "<group>"; };
 		D849C0981AF078E4001C01AC /* SISpeciesNotes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SISpeciesNotes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D849C09C1AF078E4001C01AC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D849C09D1AF078E4001C01AC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -44,8 +68,13 @@
 		D849C0B31AF078E4001C01AC /* SISpeciesNotesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SISpeciesNotesTests.swift; sourceTree = "<group>"; };
 		D849C0BE1AF08942001C01AC /* MapViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewExtension.swift; sourceTree = "<group>"; };
 		D849C0C11AF089F7001C01AC /* SpeciesAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpeciesAnnotation.swift; path = Annotations/SpeciesAnnotation.swift; sourceTree = "<group>"; };
+		D8671A491C438A980038CD45 /* CoreLocationExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreLocationExtension.swift; sourceTree = "<group>"; };
 		D87AE96D1AF1B98C007CC262 /* LogCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogCell.swift; sourceTree = "<group>"; };
 		D897B1FB1AF24E0900DAD3EB /* CategoriesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesTableViewController.swift; sourceTree = "<group>"; };
+		D8C55E621C102A6600FC0D64 /* SpeciesModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SpeciesModel.swift; path = Model/SpeciesModel.swift; sourceTree = "<group>"; };
+		D8C55E671C102CCA00FC0D64 /* CategoryModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CategoryModel.swift; path = Model/CategoryModel.swift; sourceTree = "<group>"; };
+		D8D76AC91C10253D0041D0ED /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = ../Realm.framework; sourceTree = "<group>"; };
+		D8D76ACA1C10253D0041D0ED /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = ../RealmSwift.framework; sourceTree = "<group>"; };
 		D8D8C0E51AF130DD00F750AF /* AddNewEntryController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddNewEntryController.swift; sourceTree = "<group>"; };
 		D8D8C0E71AF1355F00F750AF /* LogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -55,6 +84,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8D76ACD1C10253D0041D0ED /* RealmSwift.framework in Frameworks */,
+				D8D76ACB1C10253D0041D0ED /* Realm.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,6 +121,7 @@
 		D849C09A1AF078E4001C01AC /* SISpeciesNotes */ = {
 			isa = PBXGroup;
 			children = (
+				D8D76AD11C1028F40041D0ED /* Model */,
 				D8D76ABE1C0FF1670041D0ED /* Resources */,
 				D897B1EE1AF1CFB200DAD3EB /* Cell */,
 				D897B1ED1AF1CFA300DAD3EB /* Controller */,
@@ -130,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				D849C0BE1AF08942001C01AC /* MapViewExtension.swift */,
+				D8671A491C438A980038CD45 /* CoreLocationExtension.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -174,9 +207,21 @@
 		D8D76ABF1C1021AC0041D0ED /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D8D76AC91C10253D0041D0ED /* Realm.framework */,
+				D8D76ACA1C10253D0041D0ED /* RealmSwift.framework */,
 			);
 			name = Frameworks;
 			path = SISpeciesNotes;
+			sourceTree = "<group>";
+		};
+		D8D76AD11C1028F40041D0ED /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D8C55E621C102A6600FC0D64 /* SpeciesModel.swift */,
+				D8C55E671C102CCA00FC0D64 /* CategoryModel.swift */,
+				D82758401C5101E10097C63D /* LogCellModel.swift */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -189,6 +234,8 @@
 				D849C0941AF078E4001C01AC /* Sources */,
 				D849C0951AF078E4001C01AC /* Frameworks */,
 				D849C0961AF078E4001C01AC /* Resources */,
+				D8D76ACF1C10253D0041D0ED /* Embed Frameworks */,
+				D8D76AD01C1026FE0041D0ED /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -276,16 +323,36 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		D8D76AD01C1026FE0041D0ED /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "bash \"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework/strip-frameworks.sh\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		D849C0941AF078E4001C01AC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D82758411C5101E10097C63D /* LogCellModel.swift in Sources */,
 				D8D8C0E61AF130DD00F750AF /* AddNewEntryController.swift in Sources */,
+				D8C55E631C102A6600FC0D64 /* SpeciesModel.swift in Sources */,
 				D849C0A01AF078E4001C01AC /* MapViewController.swift in Sources */,
 				D849C0C21AF089F7001C01AC /* SpeciesAnnotation.swift in Sources */,
 				D897B1FC1AF24E0900DAD3EB /* CategoriesTableViewController.swift in Sources */,
 				D8D8C0E81AF1355F00F750AF /* LogViewController.swift in Sources */,
+				D8C55E681C102CCA00FC0D64 /* CategoryModel.swift in Sources */,
+				D8671A4A1C438A980038CD45 /* CoreLocationExtension.swift in Sources */,
 				D87AE96E1AF1B98C007CC262 /* LogCell.swift in Sources */,
 				D849C0BF1AF08942001C01AC /* MapViewExtension.swift in Sources */,
 				D849C09E1AF078E4001C01AC /* AppDelegate.swift in Sources */,
@@ -418,15 +485,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/SISpeciesNotes",
 				);
 				INFOPLIST_FILE = SISpeciesNotes/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.1-xing.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -434,9 +504,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/SISpeciesNotes",
 				);
 				INFOPLIST_FILE = SISpeciesNotes/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -453,6 +525,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -473,6 +546,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
+					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = SISpeciesNotesTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

@@ -9,19 +9,21 @@
 import MapKit
 
 /// 物种所属的标记信息
-class SpeciesAnnotation:NSObject, MKAnnotation {
+class SpeciesAnnotation: NSObject, MKAnnotation {
     
     var coordinate: CLLocationCoordinate2D
     var title: String?
     var subtitle: String?
     var category = Categories.Uncategorized
+    var species: SpeciesModel?
     
-    init(coordinate: CLLocationCoordinate2D, title: String, sub: Categories) {
+    init(coordinate: CLLocationCoordinate2D, title: String, category: Categories, species: SpeciesModel? = nil) {
         self.coordinate = coordinate
         self.title = title
-        self.subtitle = sub.rawValue
+        self.subtitle = category.rawValue
+        self.category = category
+        self.species = species
     }
-    
 }
 
 /// 物种相关的枚举信息
@@ -34,16 +36,16 @@ enum Categories: String {
     case Reptiles = "爬行动物"
     
     static let allValues = [
-        Uncategorized.rawValue,
-        Insects.rawValue,
-        Birds.rawValue,
-        Mammals.rawValue,
-        Flora.rawValue,
-        Reptiles.rawValue
+        Uncategorized,
+        Insects,
+        Birds,
+        Mammals,
+        Flora,
+        Reptiles
     ]
     
     /// 获取物种所对应的标记图片
-    func getImage() -> UIImage {
+    var annotationImage: UIImage {
         switch self {
         case .Birds:
             return UIImage(named: "IconBirds")!

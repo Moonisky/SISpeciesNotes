@@ -8,9 +8,19 @@
 
 import UIKit
 
+/// 记录单元格
 class LogCell: UITableViewCell {
     
-    // MARK: Properties
+    // MARK: 属性
+    
+    var model: LogModel! {
+        didSet {
+            titleLabel.text = model.title
+            iconImageView.image = model.iconImage
+            subtitleLabel.text = model.subtitle
+            distanceLabel.text = "\(model.distance)" + "km"
+        }
+    }
     
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
@@ -21,13 +31,10 @@ class LogCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
     
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        
-        // Configure the view for the selected state
     }
     
 }

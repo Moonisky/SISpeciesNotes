@@ -8,30 +8,27 @@
 
 import UIKit
 import MapKit
+import RealmSwift
 
 class LogViewController: UITableViewController, UISearchResultsUpdating, UISearchBarDelegate {
     
-    // MARK: Properties
+    // MARK: 属性
     
-    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    @IBOutlet private weak var segmentedControl: UISegmentedControl!
     
-    /// 物种
-    var species = []
+    /// 所有物种
+    var species: Results<SpeciesModel>!
     /// 搜索结果
-    var searchResults = []
+    private var searchResults: Results<SpeciesModel>!
     
-    var searchController: UISearchController!
+    private var searchController: UISearchController!
     
     // MARK: 控制器生命周期
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.species = realm.objects(SpeciesModel).sorted("name", ascending: true)
         initSearchController()  // 初始化搜索控制器
         definesPresentationContext = true
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     // MARK: - SearchBar Delegate
@@ -51,7 +48,7 @@ class LogViewController: UITableViewController, UISearchResultsUpdating, UISearc
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchController.active {
-            return searchResults.count
+            return searchResults != nil ? searchResults.count : 0
         }else {
             return species.count
         }
@@ -59,6 +56,21 @@ class LogViewController: UITableViewController, UISearchResultsUpdating, UISearc
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("LogCell") as! LogCell
+        let speciesModel: SpeciesModel
+        if searchController.active {
+            speciesModel = self.searchResults[indexPath.row]
+        } else {
+            speciesModel = self.species[indexPath.row]
+        }
+        cell.titleLabel.text = speciesModel.name
+        cell.subtitleLabel.text = speciesModel.category?.name
+        cell.iconImageView.image = Categories(rawValue: speciesModel.category!.name)!.annotationImage
+   
+        if speciesModel.distance < 0 {
+            cell.distanceLabel.text = "N/A"
+        } else {
+            cell.distanceLabel.text = String(format: "%.2f km", speciesModel.distance / 1000)
+        }
         
         return cell
     }
@@ -69,7 +81,7 @@ class LogViewController: UITableViewController, UISearchResultsUpdating, UISearc
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            
+            deleteRowAtIndexPath(indexPath)
         }
     }
     
@@ -78,24 +90,65 @@ class LogViewController: UITableViewController, UISearchResultsUpdating, UISearc
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "Edit" {
             let controller = segue.destinationViewController as! AddNewEntryController
-            
-            let indexPath = tableView.indexPathForSelectedRow
+            var selectedSpecies: SpeciesModel!
+            guard let indexPath = tableView.indexPathForSelectedRow else { return }
             
             if let searchResultsController = searchController.searchResultsController as? UITableViewController where searchController.active {
-                let indexPathSearch = searchResultsController.tableView.indexPathForSelectedRow
+                if let indexPathSearch = searchResultsController.tableView.indexPathForSelectedRow {
+                    selectedSpecies = searchResults[indexPathSearch.row]
+                }
+            } else {
+                selectedSpecies = species[indexPath.row]
             }
+            controller.species = selectedSpecies
         }
     }
     
     // MARK: - Actions
     
-    @IBAction func scopeChanged(sender: AnyObject) {
-        
+    private func deleteRowAtIndexPath(indexPath: NSIndexPath) {
+        let objectToDelete = species[indexPath.row]
+        try! realm.write {
+            realm.delete(objectToDelete)
+            self.species = realm.objects(SpeciesModel).sorted("name", ascending: true)
+            self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+        }
+    }
+    
+    private func filterResultsWithSearchString(searchString: String) {
+        let results = realm.objects(SpeciesModel).filter("name BEGINSWITH [c]'\(searchString)'")
+        let scopeIndex = searchController.searchBar.selectedScopeButtonIndex
+        switch scopeIndex {
+        case 0:
+            searchResults = results.sorted("name", ascending: true)
+        case 1:
+            searchResults = results.sorted("distance", ascending: true)
+        case 2:
+            searchResults = results.sorted("created", ascending: true)
+        default:
+            searchResults = results
+        }
+        tableView.reloadData()
+    }
+    
+    @IBAction private func scopeChanged(sender: AnyObject) {
+        let species = realm.objects(SpeciesModel)
+        switch sender.selectedSegmentIndex {
+        case 0:
+            self.species = species.sorted("name", ascending: true)
+        case 1:
+            self.species = species.sorted("distance", ascending: true)
+        case 2:
+            self.species = species.sorted("created", ascending: true)
+        default:
+            self.species = species
+        }
+        tableView.reloadData()
     }
     
     // MARK: - Setter & Getter
     
-    func initSearchController() {
+    private func initSearchController() {
         let searchResultsController = UITableViewController(style: .Plain)
         searchResultsController.tableView.delegate = self
         searchResultsController.tableView.dataSource = self
